@@ -78,7 +78,7 @@ export default defineComponent({
           pseudonym: this.pseudonym,
           date: Date.now()
         }
-        this.$axios.post("http://localhost:4000/fragments", value)
+        this.$axios.post("https://urchin-app-cwm3i.ondigitalocean.app/fragments", value)
         .then(response => {
           this.valueId = response.data.id
           this.showSuccessDialog()

@@ -30,7 +30,7 @@ export default defineComponent({
       }
       return array;
     }
-    const value = await this.$api.get("http://localhost:4000/fragments")
+    const value = await this.$api.get("https://urchin-app-cwm3i.ondigitalocean.app/fragments")
     // console.log(value.data);
     .then(response => {
       const originalData = response.data

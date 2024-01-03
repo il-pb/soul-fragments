@@ -1,7 +1,7 @@
 import { boot } from 'quasar/wrappers'
 import axios from 'axios'
 
-const api = axios.create({ baseURL: 'https://localhost:4000' })
+const api = axios.create({ baseURL: 'https://urchin-app-cwm3i.ondigitalocean.app' })
 
 export default boot(({ app }) => {
 
