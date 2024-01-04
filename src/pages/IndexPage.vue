@@ -82,6 +82,8 @@ export default defineComponent({
         .then(response => {
           this.valueId = response.data.id
           this.showSuccessDialog()
+          this.fragment = ""
+          this.pseudonym = ""
         }
         )
         .catch(error => {
