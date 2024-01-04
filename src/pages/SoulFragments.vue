@@ -1,64 +1,52 @@
-<template>
-  <q-page class="flex column flex-center justify-center q-px-lg">
+<template lang="pug">
+q-page(class="flex column flex-center justify-center q-px-lg")
 
-    <div class="fragment q-pa-lg q-my-lg" v-for="item in value" :key="item">
-        <h5 v-html="item.fragment"></h5>
+  article(class="fragment q-pa-lg q-my-lg" v-for="item in data" :key="item.id")
 
-        <p class="q-mt-md text-h5">Posted by {{ item.pseudonym }} on {{ item.createdAt }}</p>
-    </div>
-  </q-page>
+    h5(v-html="item.fragment")
+  
+    h6(class="q-mt-md")
+    | Posted by {{ item.pseudonym }} on {{ item.createdAt }}      
+
 </template>
 
-<script>
-import { DateTime } from 'luxon';
-import { defineComponent } from 'vue'
+<script setup>
+import { DateTime } from 'luxon'
+import axios from 'axios'
+import { onMounted, ref } from 'vue'
 
-export default defineComponent({
-  name: 'SoulFragement',
-  data() {
-    return {
-      value: ""
-    }
-  },
-  
-  async created() {
+let data = ref([])
 
-    function shuffleArray(array) {
-      for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
+const getData = () => {
+  axios.get("https://urchin-app-cwm3i.ondigitalocean.app/fragments")
+  .then(response => {
+    const originalData = response.data;
+
+    data.value = originalData.map((obj) => {
+      let time = DateTime.fromISO(obj.createdAt).toFormat('ff');
+
+      return {
+        ...obj,
+        createdAt: time
       }
-      return array;
-    }
-    const value = await this.$api.get("https://urchin-app-cwm3i.ondigitalocean.app/fragments")
-    // console.log(value.data);
-    .then(response => {
-      const originalData = response.data
-      
-      let randomizedData = shuffleArray(originalData)
-
-      let formattedData = randomizedData.map((obj) => {
-
-        let time = DateTime.fromISO(obj.createdAt).toFormat('ff')
-
-        console.log(time)
-
-        return {
-          ...obj,
-          createdAt: time
-        }
-      })
-
-      this.value = formattedData
-
     })
-    .catch(error => {
-      console.error("Error fetching data:", error)
-    })
-  }
+
+    return data
+    
+  })
+  .catch(error => {
+    console.error("Error fetching data:", error)
+  })
+}
+
+onMounted(() => {
+  getData()
+
 })
 
 </script>
+
+
 
 <style lang="sass">
 
