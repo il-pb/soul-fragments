@@ -30,5 +30,7 @@
     background-color: #f5f5f5
     box-shadow: 10px 10px 10px black
 
+a 
+    color: $primary
 
 </style>
